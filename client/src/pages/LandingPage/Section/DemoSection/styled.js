@@ -96,8 +96,8 @@ export const ImagePreview = styled.div`
     border-radius: 12px;
     font-size: 8em; // 글자 크기를 크게 설정
     //padding: 0.1em; // 문자 주위의 여백을 조정하여 비율 맞춤
-    //padding-left: 0.1em;
-    //padding-right: 0.1em;
+    padding-left: 8px;
+    padding-right: 8px;
     //padding-bottom: 0.2em;
     padding-bottom: 0.2em;
 
@@ -106,7 +106,7 @@ export const ImagePreview = styled.div`
     align-items: center;
     color: #ffa726;
     z-index: 10;
-    width: 1em; // 너비를 글자 크기에 맞춤
+    //width: 1em; // 너비를 글자 크기에 맞춤
     height: 1em; // 높이를 글자 크기에 맞춤
     cursor: pointer; // 마우스 오버 시 포인터로 변경
   }
