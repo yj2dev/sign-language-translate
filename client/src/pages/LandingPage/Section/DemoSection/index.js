@@ -1,54 +1,165 @@
-import { Container } from "./styled";
+import { PulseLoader } from "react-spinners";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Webcam from "react-webcam";
-import { useState, useEffect } from "react";
+import {
+  Container,
+  Button,
+  CaptureIntervalInput,
+  ImagePreview,
+  WebcamView,
+  ResultDisplay,
+  CameraAndPreviewContainer,
+  LoadingBar,
+  ButtonContainer,
+} from "./styled";
 
-const DemoSection = () => {
-  const capture = () => {
-    const [isCapturing, setIsCapturing] = useState(false);
-    const [intervalId, setIntervalId] = useState(null);
+function DemoSection() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [demoResult, setDemoResult] = useState("");
 
-    const capture = () => {
-      // 웹캠에서 이미지 캡처 로직
-      const image = "captured-image-data"; // 임시 이미지 데이터
+  const webcamRef = useRef(null);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
 
-      // 캡처된 이미지를 서버에 전송
-      axios
-        .post("your-server-endpoint", { image: image })
+  const defaultCaptureInterval = 2;
+  const [captureInterval, setCaptureInterval] = useState(
+    defaultCaptureInterval,
+  );
+  const [capturedImage, setCapturedImage] = useState(null);
+
+  const getRandomLetter = () => {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return letters[Math.floor(Math.random() * letters.length)];
+  };
+
+  const captureImage = () => {
+    if (webcamRef.current) {
+      setIsLoading(true); // 로딩 시작
+      const imageSrc = webcamRef.current.getScreenshot();
+      setCapturedImage(null); // 이전 이미지를 초기화
+
+      // Base64 인코딩된 데이터 URL을 Blob 객체로 변환
+      fetch(imageSrc)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const file = new File([blob], "webcam-image.png", {
+            type: "image/png",
+          });
+
+          // FormData 객체 생성
+          const fd = new FormData();
+          fd.append("file0", file);
+
+          // FormData 객체의 내용을 로깅
+          for (let [key, value] of fd.entries()) {
+            console.log(`${key}:`, value);
+          }
+
+          // 캡처된 이미지를 서버에 전송
+          return axios.post("/api/sign-lan/analysis", fd, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        })
         .then((response) => {
           console.log("Image sent successfully", response);
+          setDemoResult(getRandomLetter()); // 랜덤 알파벳 업데이트
+          setCapturedImage(imageSrc); // 요청이 완료되면 이미지 설정
         })
         .catch((error) => {
           console.error("Error sending image", error);
+          setDemoResult(getRandomLetter()); // 랜덤 알파벳 업데이트
+          setCapturedImage(imageSrc); // 요청이 완료되면 이미지 설정
+        })
+        .finally(() => {
+          setIsLoading(false); // 로딩 종료
         });
-    };
-
-    useEffect(() => {
-      if (isCapturing) {
-        const id = setInterval(capture, 5000);
-        setIntervalId(id);
-      } else if (intervalId) {
-        clearInterval(intervalId);
-        setIntervalId(null);
-      }
-
-      return () => {
-        if (intervalId) {
-          clearInterval(intervalId);
-        }
-      };
-    }, [isCapturing]);
-
-    return (
-      <DemoSection>
-        <Webcam /> {/* 웹캠 컴포넌트, 실제 구현 필요 */}
-        <button onClick={() => setIsCapturing(!isCapturing)}>
-          {isCapturing ? "자동 캡처 중지" : "5초마다 자동 캡처"}
-        </button>
-        <div id="demo-result">B</div>
-      </DemoSection>
-    );
+    }
   };
-};
+  const startAutoCapture = () => {
+    captureImage(); // 즉시 이미지 캡처
+    setIsCapturing(true); // 자동 캡처 상태를 true로 설정
+  };
+
+  const stopAutoCapture = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
+    setIsCapturing(false); // 자동 캡처 상태를 false로 설정
+  };
+
+  const toggleAutoCapture = () => {
+    setIsCapturing(!isCapturing); // 자동 캡처 상태를 반전시킵니다.
+  };
+
+  useEffect(() => {
+    let id;
+    if (isCapturing) {
+      // 자동 캡처 시작 시 즉시 한 번 캡처
+      captureImage();
+      id = setInterval(captureImage, captureInterval * 1000);
+    }
+    // 컴포넌트 언마운트시 실행될 정리 함수
+    return () => {
+      clearInterval(id); // setInterval을 정리합니다.
+    };
+  }, [isCapturing, captureInterval]); // intervalId를 의존성 배열에서 제거합니다.
+  return (
+    <Container>
+      <h1 id="demo-section">수화로 세상과 소통해 보아요.</h1>
+      <h1>당신의 이야기를 듣고 싶습니다.</h1>
+
+      <CameraAndPreviewContainer>
+        <WebcamView>
+          <Webcam ref={webcamRef} />
+        </WebcamView>
+        <ImagePreview>
+          {isLoading ? (
+            // isLoading 상태가 true일 때 로더를 표시합니다.
+            <PulseLoader color="#cccccc" size="32" margin="8" />
+          ) : capturedImage ? (
+            <>
+              <img src={capturedImage} alt="Captured" />
+              <div className="overlay-text">{demoResult}</div>
+            </>
+          ) : (
+            <div className="placeholder"></div>
+          )}
+        </ImagePreview>
+      </CameraAndPreviewContainer>
+      <ButtonContainer>
+        <div className="flex_1">
+          <Button disabled={isCapturing} onClick={captureImage}>
+            수동 캡처
+          </Button>
+        </div>
+        <div className="flex_1 flex_row">
+          <Button
+            className={isCapturing && "active"}
+            onClick={toggleAutoCapture}
+          >
+            {isCapturing ? "자동 캡처 중지" : "자동 캡처 시작"}
+          </Button>
+          <CaptureIntervalInput
+            className="btn_1"
+            type="number"
+            value={captureInterval}
+            onChange={(e) => {
+              const newInterval = parseInt(e.target.value, 10);
+              if (newInterval >= defaultCaptureInterval) {
+                setCaptureInterval(newInterval);
+              }
+            }}
+            disabled={isCapturing}
+            title="자동 캡처를 할 때 캡처 간 딜레이 시간입니다."
+          />
+        </div>
+      </ButtonContainer>
+    </Container>
+  );
+}
 
 export default DemoSection;
