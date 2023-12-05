@@ -14,7 +14,8 @@ export const FooterContainer = styled.footer`
 
 export const FooterContent = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   height: 100px;
   align-items: center;
 `;
@@ -22,7 +23,6 @@ export const FooterContent = styled.div`
 export const FooterLink = styled.a`
   color: #333; // 변경된 링크 색상
   text-decoration: none;
-  margin-right: 8em;
   &:hover {
     text-decoration: underline; // 호버 스타일 변경
     font-weight: bold; // 호버 시 글씨 두껍게
@@ -30,6 +30,7 @@ export const FooterLink = styled.a`
 `;
 
 export const FooterCopyRight = styled.div`
+  margin-bottom: 8px;
   text-align: center;
   //width: 100%; // 전체 너비 사용
 `;

@@ -23,7 +23,7 @@ const IntroduceSection = () => {
           <img src={signImg} className="sl-img" alt="sllogo" />
           <div className="intro-content">
             <div className="intro-bottom">
-              <h3 className="intro">체험 하기</h3>
+              {/*<h3 className="intro">체험 하기</h3>*/}
               <hr class="divider2"></hr>
             </div>
           </div>

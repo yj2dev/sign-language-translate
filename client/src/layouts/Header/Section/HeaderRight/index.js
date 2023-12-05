@@ -89,6 +89,31 @@ const HeaderRight = () => {
     );
   };
 
+  const moveToChatPage = () => {
+    navigate("/chat");
+
+    setTimeout(() => {
+      // 최상단으로 스크롤
+      window.scrollTo({
+        top: 0, // 스크롤할 Y 좌표
+        left: 0, // 스크롤할 X 좌표
+        behavior: "smooth", // 부드러운 스크롤 효과
+      });
+    }, 0);
+  };
+  const moveToArcadePage = () => {
+    navigate("/arcade");
+
+    setTimeout(() => {
+      // 최상단으로 스크롤
+      window.scrollTo({
+        top: 0, // 스크롤할 Y 좌표
+        left: 0, // 스크롤할 X 좌표
+        behavior: "smooth", // 부드러운 스크롤 효과
+      });
+    }, 0);
+  };
+
   return (
     <HeaderRightNav>
       <LoginModal
@@ -109,10 +134,12 @@ const HeaderRight = () => {
           <span onClick={scrollToDemoSection}>체험</span>
         </li>
         <li>
-          <Link to="chat">이용하기</Link>
+          <span onClick={moveToChatPage}>이용하기</span>
+          {/*<Link to="chat">이용하기</Link>*/}
         </li>
         <li>
-          <Link to="arcade">익히기</Link>
+          <span onClick={moveToArcadePage}>익히기</span>
+          {/*<Link to="arcade">익히기</Link>*/}
         </li>
       </ul>
       {/*<ul>*/}
