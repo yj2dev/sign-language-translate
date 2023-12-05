@@ -79,11 +79,11 @@ export const PreviewImageSection = styled.div`
 
   flex-direction: row;
   flex-wrap: wrap;
-  border: 2px dashed orange;
+  //border: 2px dashed orange;
   gap: 12px;
 
   img {
-    border: 1px solid red;
+    //border: 1px solid red;
     width: 256px;
     height: 256px;
     //height: 256px;

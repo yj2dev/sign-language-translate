@@ -248,8 +248,8 @@ const SignLanChatPage = () => {
 
       {isDrag && <DragOverlay>파일을 드롭하세요</DragOverlay>}
       <FileDropSection onClick={() => fileInputRef.current.click()}>
-        {dropFile ? (
-          <p>{dropFile[0].name}</p>
+        {dropFile && dropFile.length > 0 ? (
+          <p>{dropFile[0].name}</p> // 파일이 있을 때만 파일 이름 표시
         ) : (
           <div className="drop-content">
             <IconContext.Provider value={{ className: "react-icons" }}>
@@ -264,7 +264,7 @@ const SignLanChatPage = () => {
         )}
       </FileDropSection>
       <PreviewImageSection>
-        {previewUrl &&
+        {previewUrl && previewUrl.length > 0 ? (
           previewUrl.map((url, index) => (
             <div
               key={index}
@@ -283,7 +283,10 @@ const SignLanChatPage = () => {
               </button>
               <span>{index + 1}</span> {/* 인덱스 번호 표시 */}
             </div>
-          ))}
+          ))
+        ) : (
+          <p>미리보기 이미지가 없습니다.</p>
+        )}
       </PreviewImageSection>
     </Container>
   );
