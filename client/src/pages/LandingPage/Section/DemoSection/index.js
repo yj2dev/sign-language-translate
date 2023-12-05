@@ -109,7 +109,7 @@ function DemoSection() {
   }, [isCapturing, captureInterval]); // intervalId를 의존성 배열에서 제거합니다.
   return (
     <Container>
-      <h1>수화로 세상과 소통해 보아요.</h1>
+      <h1 id="demo-section">수화로 세상과 소통해 보아요.</h1>
       <h1>당신의 이야기를 듣고 싶습니다.</h1>
 
       <CameraAndPreviewContainer>

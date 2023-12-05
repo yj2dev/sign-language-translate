@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
+  //margin: 400px 0 200px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,7 +26,7 @@ export const CameraAndPreviewContainer = styled.div`
   justify-content: center;
   align-items: stretch; // 내부 아이템들이 동일한 높이를 갖도록 설정
   width: 95%;
-  max-width: 1440px;
+  //max-width: 1440px;
 `;
 
 export const WebcamView = styled.div`

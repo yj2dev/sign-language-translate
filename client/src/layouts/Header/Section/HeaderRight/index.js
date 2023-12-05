@@ -6,8 +6,12 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../../recoil/userState";
 import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const HeaderRight = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
@@ -53,6 +57,38 @@ const HeaderRight = () => {
     setShowRegisterModal(false);
   };
 
+  const scrollToIntroduceSection = () => {
+    navigate("/");
+
+    setTimeout(() => {
+      // 최상단으로 스크롤
+      window.scrollTo({
+        top: 0, // 스크롤할 Y 좌표
+        left: 0, // 스크롤할 X 좌표
+        behavior: "smooth", // 부드러운 스크롤 효과
+      });
+    }, 0);
+  };
+
+  const scrollToDemoSection = () => {
+    // 현재 경로가 "/"가 아니면 navigate를 호출
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
+
+    // 스크롤을 내리기 위해 약간의 지연을 준다
+    // 페이지가 이미 "/"에 있다면 바로 스크롤 내린다
+    setTimeout(
+      () => {
+        const section = document.getElementById("demo-section");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      },
+      location.pathname === "/" ? 0 : 350,
+    );
+  };
+
   return (
     <HeaderRightNav>
       <LoginModal
@@ -67,10 +103,10 @@ const HeaderRight = () => {
       />
       <ul>
         <li>
-          <Link to="/">소개</Link>
+          <span onClick={scrollToIntroduceSection}>소개</span>
         </li>
         <li>
-          <Link to="/">체험</Link>
+          <span onClick={scrollToDemoSection}>체험</span>
         </li>
         <li>
           <Link to="chat">이용하기</Link>
