@@ -1,6 +1,11 @@
 import json
 import os
+import string
+import cv2
 from dotenv import load_dotenv
+import mlflow
+import mlflow.keras
+import numpy as np
 from openai import OpenAI
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -22,25 +27,72 @@ def index(req):
 @csrf_exempt
 def sign_lan_analysis(req):
     print('sign_lan_analysis >> ')
+    print(req)
     if req.method == "POST":
         print('sign_lan_analysis post >> ')
-        print('req.FILES >> ', req.FILES)
+        # print('req.FILES >> ', req.FILES)
         if req.FILES:
             file_urls = []
             # 파일 인덱스 패턴에 맞춰서 파일 처리
-
+            chatGptPrompt=[]
             print('req.FILES >> ', req.FILES)
-            print('file_urls >> ', file_urls)
+            # print('file_urls >> ', file_urls)
 
             for key in req.FILES:
-                if key.startswith('file'):
-                    file = req.FILES[key]
-                    fs = FileSystemStorage()
-                    filename = fs.save(file.name, file)
-                    file_url = fs.url(filename)
-                    file_urls.append(file_url)
+                print("key>>",key)
+                # if key.startswith('FILES'):
+                file = req.FILES[key]
+                # print(file)
+                # print("file>>",file)
+                fs = FileSystemStorage()
+                if not os.path.exists('file'):
+                    os.makedirs('file')
+                filename = fs.save('file/'+file.name, file)
+                file_url = fs.url(filename)
+                file_url = '.'+file_url
+                file_urls.append(file_url)
+                print('file_url>>', file_url)
+                class_names = list(string.ascii_lowercase)
+                class_names = np.array(class_names)
+                
 
-            return JsonResponse({'response': 'Files uploaded successfully', 'file_urls': file_urls})
+                # mlflow 로딩
+                mlflow_uri="http://mini7-mlflow.carpediem.so/"
+                mlflow.set_tracking_uri(mlflow_uri)
+                model_uri = "models:/model_26/production" 
+                model = mlflow.keras.load_model(model_uri)
+                
+                img = cv2.imread(file_url, cv2.IMREAD_GRAYSCALE)
+                # 크기 조정
+                print(img)
+                img = cv2.resize(img, (28, 28))
+
+                # input shape 맞추기
+                test_sign = img.reshape(1, 28, 28, 1)
+
+                # 스케일링
+                test_sign = test_sign / 255.
+
+                # 예측 : 결국 이 결과를 얻기 위해 모든 것을 했다.
+                pred = model.predict(test_sign)
+                pred_1 = pred.argmax(axis=1)
+
+                result_str = class_names[pred_1][0]
+                print(result_str)
+                chatGptPrompt .append(result_str)
+            
+            # result = chat(chatGptPrompt)
+            # print(result)
+            # context = {
+            #     'question': chatGptPrompt,
+            #     'result': result
+            # }
+            # print(context)
+            context = {
+                'result': chatGptPrompt
+            }
+            print(context)
+            return JsonResponse(context)
         else:
             return JsonResponse({'response': 'No files attached'}, status=400)
     else:
@@ -50,7 +102,7 @@ def sign_lan_analysis(req):
 def chat(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        prompt = data.get('message', '')
+        prompt = data.get('message')
         print('prompt >> ', prompt)
 
         completion = client.chat.completions.create(
@@ -60,5 +112,5 @@ def chat(request):
         print(completion)
         result = completion.choices[0].message.content
         print('result >> ', result)
-
-        return JsonResponse({'result': result})
+        context = {"result": result}
+        return JsonResponse(context)
