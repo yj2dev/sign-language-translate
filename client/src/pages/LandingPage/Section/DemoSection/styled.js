@@ -59,6 +59,15 @@ export const ImagePreview = styled.div`
   align-items: center;
   color: #aaaaaa;
 
+  .countdown-display {
+    //font-family: "Permanent Marker", serif;
+    position: absolute;
+    top: 16px;
+    right: 28px;
+    font-size: 1.5em; // 글자 크기를 크게 설정
+    color: #ffa726;
+    z-index: 10;
+  }
   p {
     text-align: center;
     padding: 0;
@@ -90,6 +99,7 @@ export const ImagePreview = styled.div`
     //padding-left: 0.1em;
     //padding-right: 0.1em;
     //padding-bottom: 0.2em;
+    padding-bottom: 0.2em;
 
     display: flex;
     justify-content: center;
