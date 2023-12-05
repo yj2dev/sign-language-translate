@@ -65,12 +65,12 @@ function DemoSection() {
         })
         .then((response) => {
           console.log("Image sent successfully", response);
-          setDemoResult(getRandomLetter()); // 랜덤 알파벳 업데이트
+          setDemoResult(response.data.result); // 랜덤 알파벳 업데이트
           setCapturedImage(imageSrc); // 요청이 완료되면 이미지 설정
         })
         .catch((error) => {
           console.error("Error sending image", error);
-          setDemoResult(getRandomLetter()); // 랜덤 알파벳 업데이트
+          setDemoResult("Error"); // 랜덤 알파벳 업데이트
           setCapturedImage(imageSrc); // 요청이 완료되면 이미지 설정
         })
         .finally(() => {
@@ -126,14 +126,17 @@ function DemoSection() {
               <div className="overlay-text">{demoResult}</div>
             </>
           ) : (
-            <div className="placeholder"></div>
+            <div className="placeholder">
+              카메라에 수화를 취한 후 <span>캡처</span> <br /> 버튼을 클릭해
+              결과를 확인하세요
+            </div>
           )}
         </ImagePreview>
       </CameraAndPreviewContainer>
       <ButtonContainer>
         <div className="flex_1">
           <Button disabled={isCapturing} onClick={captureImage}>
-            수동 캡처
+            캡처
           </Button>
         </div>
         <div className="flex_1 flex_row">
