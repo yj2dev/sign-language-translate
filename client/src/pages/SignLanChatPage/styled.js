@@ -1,18 +1,32 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  //display: flex;
+  //border: 1px dashed #9da0a5;
+  margin: 24px 0;
+  padding: 32px;
+  display: flex;
   align-items: center;
   flex-direction: column;
-  border: 1px dashed #9da0a5;
   border-bottom: none;
   border-top: none;
-  height: 100vw;
-  width: 1000px;
+  //height: auto;
+  height: 100vh;
+  width: 80%; // 기본 너비를 80%로 설정
+  max-width: 1000px; // 최대 너비를 1000px로 설정
+  background-color: #fff;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 0 6px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 768px) {
+    // 모바일 화면에 대한 미디어 쿼리
+    width: 100%; // 모바일 화면에서는 너비를 100%로 설정
+    height: auto; // 모바일에서 높이를 자동으로 조절
+  }
 `;
 export const FileDropSection = styled.div`
-  width: 80%;
-  height: 250px;
+  width: 74%;
+  padding: 64px;
   border: 4px dashed #e5e7eb;
   border-radius: 24px;
   background-color: #f9fafb;
@@ -24,6 +38,9 @@ export const FileDropSection = styled.div`
   font-size: 1.5em;
   cursor: pointer;
 
+  .drop-content {
+    text-align: center;
+  }
   .react-icons {
     font-size: 42px;
     margin-bottom: 12px;

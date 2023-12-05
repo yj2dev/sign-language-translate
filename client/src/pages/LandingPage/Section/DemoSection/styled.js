@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1em;
-  background-color: #fff; // 백그라운드 컬러를 밝은 톤으로 변경
+  background-color: #f2f2f2; // 백그라운드 컬러를 밝은 톤으로 변경
   padding: 20px;
   color: #333; // 기본 텍스트 컬러를 어둡게 설정
 

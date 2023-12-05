@@ -5,7 +5,7 @@ import {
   PreviewImageSection,
 } from "./styled";
 import { useEffect, useRef, useState } from "react";
-import { RxUpload } from "react-icons/rx";
+import { IoIosImages } from "react-icons/io";
 import { IconContext } from "react-icons";
 import ReactQuill from "react-quill";
 import { fullModules } from "../../utils/ReactQuillConfig";
@@ -78,6 +78,7 @@ const SignLanChatPage = () => {
 
     const handlePaste = (e) => {
       const items = (e.clipboardData || window.clipboardData).items;
+      let imageFiles = []; // 이미지 파일을 저장할 배열
       let previewUrls = []; // 미리보기 URL을 저장할 배열
 
       for (let index in items) {
@@ -85,14 +86,22 @@ const SignLanChatPage = () => {
 
         if (item.kind === "file" && item.type.startsWith("image/")) {
           const blob = item.getAsFile();
+          imageFiles.push(blob); // 파일 배열에 추가
           const reader = new FileReader();
 
           reader.onloadend = () => {
-            previewUrls.push(reader.result);
-            setPreviewUrl(previewUrls);
+            previewUrls.push(reader.result); // URL 배열에 추가
+            // 모든 이미지가 로드되었는지 확인
+            if (previewUrls.length === imageFiles.length) {
+              setDropFile((prevFiles) => [...(prevFiles || []), ...imageFiles]); // 기존 파일에 새로운 파일 추가
+              setPreviewUrl((prevUrls) => [
+                ...(prevUrls || []),
+                ...previewUrls,
+              ]); // 기존 URL에 새로운 URL 추가
+            }
           };
 
-          reader.readAsDataURL(blob);
+          reader.readAsDataURL(blob); // 파일 읽기 시작
         }
       }
     };
@@ -117,27 +126,22 @@ const SignLanChatPage = () => {
         file.type.startsWith("image/"),
       );
 
-      if (imageFiles.length > 0) {
-        setDropFile(imageFiles); // 드랍된 이미지 파일들을 상태에 저장
+      let previewUrls = []; // 미리보기 URL을 저장할 배열
 
-        let previewUrls = []; // 미리보기 URL을 저장할 배열
+      imageFiles.forEach((file) => {
+        const reader = new FileReader();
 
-        imageFiles.forEach((file) => {
-          const reader = new FileReader();
+        reader.onloadend = () => {
+          previewUrls.push(reader.result); // URL 배열에 추가
+          // 모든 이미지가 로드되었는지 확인
+          if (previewUrls.length === imageFiles.length) {
+            setDropFile((prevFiles) => [...(prevFiles || []), ...imageFiles]); // 기존 파일에 새로운 파일 추가
+            setPreviewUrl((prevUrls) => [...(prevUrls || []), ...previewUrls]); // 기존 URL에 새로운 URL 추가
+          }
+        };
 
-          reader.onloadend = () => {
-            previewUrls.push(reader.result); // URL 배열에 추가
-            // 모든 이미지가 로드되었는지 확인
-            if (previewUrls.length === imageFiles.length) {
-              setPreviewUrl(previewUrls); // 모든 이미지 URL 배열을 상태에 설정
-            }
-          };
-
-          reader.readAsDataURL(file); // 파일 읽기 시작
-        });
-      } else {
-        setDropFile(null);
-      }
+        reader.readAsDataURL(file); // 파일 읽기 시작
+      });
     }
   };
 
@@ -208,15 +212,16 @@ const SignLanChatPage = () => {
         {dropFile ? (
           <p>{dropFile[0].name}</p>
         ) : (
-          <>
+          <div className="drop-content">
             <IconContext.Provider value={{ className: "react-icons" }}>
-              <RxUpload />
+              <IoIosImages />
             </IconContext.Provider>
-
-            <p>최대 10MB 이하 JPEG, PNG 첨부 가능</p>
-            <p>이미지를 끌어넣거나 클립보드에 복사하여 붙여 넣어주세요.</p>
-            <p>또는 시작할 파일을 선택하세요</p>
-          </>
+            사진을 클릭하여 이미지를 업로드하세요. <br />
+            또는 이미지를 끌어 넣거나 클립보드에 (Ctrl+V) 복사 후 사용해주세요.
+            {/*<p>최대 10MB 이하 JPEG, PNG 첨부 가능</p>*/}
+            {/*<p>이미지를 끌어넣거나 클립보드에 복사하여 붙여 넣어주세요.</p>*/}
+            {/*<p>또는 시작할 파일을 선택하세요</p>*/}
+          </div>
         )}
       </FileDropSection>
 

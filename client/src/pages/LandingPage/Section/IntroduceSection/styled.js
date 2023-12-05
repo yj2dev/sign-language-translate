@@ -1,20 +1,15 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  // border: 4px dashed orangered;
-  height: 120vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  //border: 4px solid orchid;
   font-size: 2em;
   color: #cccccc;
 
   .intro_wrapper {
-    background-color: white;
+    background-color: #f2f2f2;
     width: 100%;
     height: 100%;
-    // background-image: url("https://i.ibb.co/988TYyd/signlang.jpg");
+    //background-image: url("https://i.ibb.co/988TYyd/signlang.jpg");
     // background-size: cover;
     // backgroundRepeat: no-repeat;
     // display: flex;

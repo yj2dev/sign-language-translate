@@ -6,14 +6,19 @@ export const HeaderContainer = styled.header`
   left: 0;
   width: 100%;
   display: flex;
-  background-color: #fff;
+  //background-color: #fff;
+  background-color: transparent;
   justify-content: space-evenly;
   align-items: center;
   height: 84px;
   border-bottom: 1px solid transparent;
   transition: 0.2s;
+  font-size: 20px;
 
   &.active {
+    font-size: 18px;
+    background-color: #fff;
+    //opacity: 0.9;
     height: 72px;
     transition: 0.2s;
     //border-bottom: 1px solid #cccccc;
