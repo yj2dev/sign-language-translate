@@ -23,6 +23,7 @@ export const Container = styled.div`
   .intro-content {
     position: relative;
     top: 80px;
+    left:40px;
   }
 
   h2,
