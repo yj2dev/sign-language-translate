@@ -1,8 +1,11 @@
 import { Container } from "./styled";
-import { useCallback, useState } from "react";
 
-const TestPage4 = () => {
-  return <Container>TEST4</Container>;
+const IntroduceSection = () => {
+  return (
+    <Container>
+      <div className="items">서비스 소개 페이지</div>
+    </Container>
+  );
 };
 
-export default TestPage4;
+export default IntroduceSection;

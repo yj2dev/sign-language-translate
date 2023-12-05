@@ -189,10 +189,7 @@ const TestPage = () => {
     <Container>
       <button onClick={onClickSendImg}>전송</button>
       <button onClick={onClickChat}>채팅</button>
-      <h3>글을 쓰자</h3>
-      <div>
-        <ReactQuill value={value} onChange={setValue} modules={fullModules} />
-      </div>
+
 
       <input
         type="file"

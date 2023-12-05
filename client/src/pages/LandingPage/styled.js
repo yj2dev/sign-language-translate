@@ -9,23 +9,3 @@ export const Container = styled.div`
     height: 84px;
   }
 `;
-export const IntroduceSection = styled.div`
-  border: 4px dashed orangered;
-  height: 100vh;
-  width: 100vw;
-  //display: flex;
-  //justify-content: center;
-  //align-items: center;
-  //font-size: 2em;
-  color: #cccccc;
-`;
-export const DemoSection = styled.div`
-  border: 4px dashed orangered;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2em;
-  color: #cccccc;
-`;
