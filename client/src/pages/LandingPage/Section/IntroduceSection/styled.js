@@ -27,7 +27,6 @@ export const Container = styled.div`
 
   h2, p {
     margin-left : 120px;
-   
   }
 
   h2 {
