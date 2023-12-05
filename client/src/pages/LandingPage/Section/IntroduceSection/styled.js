@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   // border: 4px dashed orangered;
-  height: 200vh;
+  height: 120vh;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -23,7 +23,6 @@ export const Container = styled.div`
   .intro-content {
     position: relative;
     top: 80px;
-    left:80px;
   }
 
   h2, p {
