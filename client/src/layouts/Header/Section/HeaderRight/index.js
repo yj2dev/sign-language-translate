@@ -67,16 +67,16 @@ const HeaderRight = () => {
       />
       <ul>
         <li>
-          <Link to="test">소개</Link>
+          <Link to="/">소개</Link>
         </li>
         <li>
-          <Link to="test2">체험</Link>
+          <Link to="/">체험</Link>
         </li>
         <li>
-          <Link to="test3">이용하기</Link>
+          <Link to="chat">이용하기</Link>
         </li>
         <li>
-          <Link to="test4">익히기</Link>
+          <Link to="arcade">익히기</Link>
         </li>
       </ul>
       {/*<ul>*/}

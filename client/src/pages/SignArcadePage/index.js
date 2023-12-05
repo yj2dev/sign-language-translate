@@ -1,7 +1,7 @@
 import { Container } from "./styled";
 import { useCallback, useState } from "react";
 
-const TestPage2 = () => {
+const SignArcadePage = () => {
   const [dragging, setDragging] = useState(false);
   const [image, setImage] = useState(null);
   const handleDrag = useCallback((e) => {
@@ -51,4 +51,4 @@ const TestPage2 = () => {
   );
 };
 
-export default TestPage2;
+export default SignArcadePage;

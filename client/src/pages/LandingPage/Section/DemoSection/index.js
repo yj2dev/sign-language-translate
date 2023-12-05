@@ -11,6 +11,7 @@ import {
   ResultDisplay,
   CameraAndPreviewContainer,
   LoadingBar,
+  ButtonContainer,
 } from "./styled";
 
 function DemoSection() {
@@ -21,7 +22,7 @@ function DemoSection() {
   const [isCapturing, setIsCapturing] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
 
-  const defaultCaptureInterval = 5;
+  const defaultCaptureInterval = 2;
   const [captureInterval, setCaptureInterval] = useState(
     defaultCaptureInterval,
   );
@@ -38,16 +39,29 @@ function DemoSection() {
       const imageSrc = webcamRef.current.getScreenshot();
       setCapturedImage(null); // 이전 이미지를 초기화
 
-      // FormData 객체 생성
-      const formData = new FormData();
-      formData.append("file1", imageSrc);
+      // Base64 인코딩된 데이터 URL을 Blob 객체로 변환
+      fetch(imageSrc)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const file = new File([blob], "webcam-image.png", {
+            type: "image/png",
+          });
 
-      // 캡처된 이미지를 서버에 전송
-      axios
-        .post("/api/sign-lan/analysis", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          // FormData 객체 생성
+          const fd = new FormData();
+          fd.append("file0", file);
+
+          // FormData 객체의 내용을 로깅
+          for (let [key, value] of fd.entries()) {
+            console.log(`${key}:`, value);
+          }
+
+          // 캡처된 이미지를 서버에 전송
+          return axios.post("/api/sign-lan/analysis", fd, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
         })
         .then((response) => {
           console.log("Image sent successfully", response);
@@ -64,7 +78,6 @@ function DemoSection() {
         });
     }
   };
-
   const startAutoCapture = () => {
     captureImage(); // 즉시 이미지 캡처
     setIsCapturing(true); // 자동 캡처 상태를 true로 설정
@@ -96,6 +109,9 @@ function DemoSection() {
   }, [isCapturing, captureInterval]); // intervalId를 의존성 배열에서 제거합니다.
   return (
     <Container>
+      <h1>수화로 세상과 소통해 보아요.</h1>
+      <h1>당신의 이야기를 듣고 싶습니다.</h1>
+
       <CameraAndPreviewContainer>
         <WebcamView>
           <Webcam ref={webcamRef} />
@@ -103,33 +119,45 @@ function DemoSection() {
         <ImagePreview>
           {isLoading ? (
             // isLoading 상태가 true일 때 로더를 표시합니다.
-            <PulseLoader color="#717171" size="32" margin="4" />
+            <PulseLoader color="#cccccc" size="32" margin="8" />
           ) : capturedImage ? (
             <>
               <img src={capturedImage} alt="Captured" />
               <div className="overlay-text">{demoResult}</div>
             </>
           ) : (
-            <div className="placeholder">미리보기가 여기에 표시됩니다.</div>
+            <div className="placeholder"></div>
           )}
         </ImagePreview>
       </CameraAndPreviewContainer>
-      <Button onClick={captureImage}>수동 캡처</Button>
-      <Button onClick={toggleAutoCapture}>
-        {isCapturing ? "자동 캡처 중지" : "자동 캡처 시작"}
-      </Button>
-      <CaptureIntervalInput
-        type="number"
-        value={captureInterval}
-        onChange={(e) => {
-          // 입력된 값이 5 이상인 경우에만 상태를 업데이트합니다.
-          const newInterval = parseInt(e.target.value, 10);
-          if (newInterval >= defaultCaptureInterval) {
-            setCaptureInterval(newInterval);
-          }
-        }}
-        disabled={isCapturing}
-      />
+      <ButtonContainer>
+        <div className="flex_1">
+          <Button disabled={isCapturing} onClick={captureImage}>
+            수동 캡처
+          </Button>
+        </div>
+        <div className="flex_1 flex_row">
+          <Button
+            className={isCapturing && "active"}
+            onClick={toggleAutoCapture}
+          >
+            {isCapturing ? "자동 캡처 중지" : "자동 캡처 시작"}
+          </Button>
+          <CaptureIntervalInput
+            className="btn_1"
+            type="number"
+            value={captureInterval}
+            onChange={(e) => {
+              const newInterval = parseInt(e.target.value, 10);
+              if (newInterval >= defaultCaptureInterval) {
+                setCaptureInterval(newInterval);
+              }
+            }}
+            disabled={isCapturing}
+            title="자동 캡처를 할 때 캡처 간 딜레이 시간입니다."
+          />
+        </div>
+      </ButtonContainer>
     </Container>
   );
 }

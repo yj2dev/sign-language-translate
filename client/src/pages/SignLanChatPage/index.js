@@ -11,7 +11,7 @@ import ReactQuill from "react-quill";
 import { fullModules } from "../../utils/ReactQuillConfig";
 import axios from "axios";
 
-const TestPage = () => {
+const SignLanChatPage = () => {
   const [isDrag, setIsDrag] = useState(false);
   const dragTimeoutRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -47,11 +47,13 @@ const TestPage = () => {
 
       if (files && files.length) {
         const imageFiles = Array.from(files).filter((file) =>
-            file.type.startsWith("image/"),
+          file.type.startsWith("image/"),
         );
 
         if (imageFiles.length) {
-          const newImageFiles = dropFile ? [...dropFile, ...imageFiles] : imageFiles; // 기존 파일에 새로운 파일 추가
+          const newImageFiles = dropFile
+            ? [...dropFile, ...imageFiles]
+            : imageFiles; // 기존 파일에 새로운 파일 추가
 
           newImageFiles.forEach((file, index) => {
             const reader = new FileReader();
@@ -140,7 +142,7 @@ const TestPage = () => {
   };
 
   const onClickSendImg = () => {
-    console.log('dropFile >> ', dropFile)
+    console.log("dropFile >> ", dropFile);
     if (!dropFile || dropFile.length === 0) {
       alert("파일을 선택해주세요.");
       return;
@@ -151,45 +153,46 @@ const TestPage = () => {
       fd.append(`file${index}`, file, file.name);
     });
 
-    axios.post('/api/sign-lan/analysis', fd, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-        .then(response => {
-          console.log(response.data);
-          alert('[분석]파일이 성공적으로 전송되었습니다.');
-        })
-        .catch(error => {
-          console.error('Error uploading file: ', error);
-          alert('[분석]파일 전송 중 오류가 발생했습니다.');
-        });
+    // FormData 객체의 내용을 로깅
+    for (let [key, value] of fd.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    axios
+      .post("/api/sign-lan/analysis", fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        alert("[분석]파일이 성공적으로 전송되었습니다.");
+      })
+      .catch((error) => {
+        console.error("Error uploading file: ", error);
+        alert("[분석]파일 전송 중 오류가 발생했습니다.");
+      });
+  };
 
-  }
+  const onClickChat = () => {
+    const message = "안녕하세요. 오늘 날씨 어때요?";
+    const payload = { message };
 
-  const  onClickChat = () => {
-    const message= "안녕하세요. 오늘 날씨 어때요?"
-    const payload = {message}
-
-    axios.post('/api/chat', payload
-    )
-        .then(res => {
-          console.log(res.data);
-          alert('[채팅] 파일이 성공적으로 전송되었습니다.');
-        })
-        .catch(error => {
-          console.error('Error uploading file: ', error);
-          alert('[채팅] [알파벳 분석] 파일 전송 중 오류가 발생했습니다.');
-        });
-
-  }
-
+    axios
+      .post("/api/chat", payload)
+      .then((res) => {
+        console.log(res.data);
+        alert("[채팅] 파일이 성공적으로 전송되었습니다.");
+      })
+      .catch((error) => {
+        console.error("Error uploading file: ", error);
+        alert("[채팅] [알파벳 분석] 파일 전송 중 오류가 발생했습니다.");
+      });
+  };
 
   return (
     <Container>
       <button onClick={onClickSendImg}>전송</button>
       <button onClick={onClickChat}>채팅</button>
-
 
       <input
         type="file"
@@ -231,4 +234,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default SignLanChatPage;
