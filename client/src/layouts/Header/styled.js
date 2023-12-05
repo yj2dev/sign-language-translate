@@ -1,6 +1,7 @@
 import styled from "styled-components";
 export const HeaderContainer = styled.header`
   position: fixed;
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 100%;
@@ -45,7 +46,6 @@ export const HeaderLeftNav = styled.nav`
   align-items: center;
   font-size: 24px;
   font-family: "Diphylleia", serif;
-  //font-weight: 400;
   img {
     //width: 36px;
     //height: 36px;
