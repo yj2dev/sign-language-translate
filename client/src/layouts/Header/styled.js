@@ -10,7 +10,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-evenly;
   align-items: center;
   height: 64px;
-  border-bottom: 1px solid transparent;
+  // border-bottom: 1px solid transparent;
 
   &.active {
     transition: 0.2s;
