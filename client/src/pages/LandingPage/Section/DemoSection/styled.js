@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
-  width: 100vw;
+  //margin: 400px 0 200px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 1em;
-  background-color: #fff; // 백그라운드 컬러를 밝은 톤으로 변경
+  background-color: #f2f2f2; // 백그라운드 컬러를 밝은 톤으로 변경
   padding: 20px;
   color: #333; // 기본 텍스트 컬러를 어둡게 설정
 
@@ -27,7 +26,7 @@ export const CameraAndPreviewContainer = styled.div`
   justify-content: center;
   align-items: stretch; // 내부 아이템들이 동일한 높이를 갖도록 설정
   width: 95%;
-  max-width: 1440px;
+  //max-width: 1440px;
 `;
 
 export const WebcamView = styled.div`
@@ -60,6 +59,15 @@ export const ImagePreview = styled.div`
   align-items: center;
   color: #aaaaaa;
 
+  .countdown-display {
+    //font-family: "Permanent Marker", serif;
+    position: absolute;
+    top: 16px;
+    right: 28px;
+    font-size: 1.5em; // 글자 크기를 크게 설정
+    color: #ffa726;
+    z-index: 10;
+  }
   p {
     text-align: center;
     padding: 0;
@@ -88,16 +96,17 @@ export const ImagePreview = styled.div`
     border-radius: 12px;
     font-size: 8em; // 글자 크기를 크게 설정
     //padding: 0.1em; // 문자 주위의 여백을 조정하여 비율 맞춤
-    //padding-left: 0.1em;
-    //padding-right: 0.1em;
+    padding-left: 8px;
+    padding-right: 8px;
     //padding-bottom: 0.2em;
+    padding-bottom: 0.2em;
 
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ffa726;
     z-index: 10;
-    width: 1em; // 너비를 글자 크기에 맞춤
+    //width: 1em; // 너비를 글자 크기에 맞춤
     height: 1em; // 높이를 글자 크기에 맞춤
     cursor: pointer; // 마우스 오버 시 포인터로 변경
   }
