@@ -288,6 +288,8 @@ const SignLanChatPage = () => {
           <p>미리보기 이미지가 없습니다.</p>
         )}
       </PreviewImageSection>
+
+      <input type="text" />
     </Container>
   );
 };

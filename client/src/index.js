@@ -10,7 +10,9 @@ import getCookie from "./utils/Cookie";
 // axios.defaults.xsrfHeaderName = "x-CSRFToken";
 // axios.defaults.withCredentials = true;
 
-axios.defaults.baseURL = "http://localhost:8000";
+// axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://13.212.5.129";
+
 axios.defaults.withCredentials = true;
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
