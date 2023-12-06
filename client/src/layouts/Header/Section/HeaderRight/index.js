@@ -134,7 +134,7 @@ const HeaderRight = () => {
           <span onClick={scrollToDemoSection}>체험</span>
         </li>
         <li>
-          <span onClick={moveToChatPage}>이용하기</span>
+          <span onClick={moveToChatPage}>대화하기</span>
           {/*<Link to="chat">이용하기</Link>*/}
         </li>
         {/*<li>*/}
