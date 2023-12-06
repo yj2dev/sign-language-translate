@@ -5,21 +5,18 @@ export const Container = styled.div`
   font-size: 2em;
   color: #cccccc;
 
+  margin-bottom: 400px;
   .intro_wrapper {
     background-color: #f2f2f2;
     width: 100%;
     height: 100%;
-    //background-image: url("https://i.ibb.co/988TYyd/signlang.jpg");
-    // background-size: cover;
-    // backgroundRepeat: no-repeat;
     // display: flex;
   }
 
   .intro-content {
     position: relative;
     top: 80px;
-    left:40px;
-    
+    left: 40px;
   }
 
   h2,
@@ -59,21 +56,12 @@ export const Container = styled.div`
     width: 40%;
     float: right;
     position: relative;
-    margin-top: -250px;
+    margin-top: -350px;
+    margin-right: 100px;
   }
 
   h3 {
     text-align: right;
-  }
-
-  .intro-bottom {
-    position: absolute;
-    top: 200px;
-    right: 300px;
-  }
-
-  .divider2 {
-    max-width: 50rem;
   }
 
   .intro-title {
@@ -86,5 +74,17 @@ export const Container = styled.div`
   .icon {
     margin-left: 10px;
     margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .sl-img {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    p {
+      font-size: 18px;
+    }
   }
 `;

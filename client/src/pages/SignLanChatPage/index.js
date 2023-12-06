@@ -15,14 +15,15 @@ const SignLanChatPage = () => {
   const [isDrag, setIsDrag] = useState(false);
   const dragTimeoutRef = useRef(null);
   const fileInputRef = useRef(null);
+  const [messages, setMessages] = useState([]);
 
-  const [dropFile, setDropFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [dropFile, setDropFile] = useState([]);
+  const [previewUrl, setPreviewUrl] = useState([]);
 
   const [dragging, setDragging] = useState(false); // 드래그 중인지 상태
   const [draggedIndex, setDraggedIndex] = useState(null); // 드래그 중인 항목의 인덱스
 
-  const [value, setValue] = useState("");
+  const [rValue, setRValue] = useState("");
   // 드래그 시작 핸들러
   const onDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
@@ -207,36 +208,49 @@ const SignLanChatPage = () => {
         },
       })
       .then((response) => {
+        // alert("[분석]파일이 성공적으로 전송되었습니다.");
         console.log(response.data);
-        alert("[분석]파일이 성공적으로 전송되었습니다.");
+        setRValue(rValue + response.data.result.join(""));
+        setDropFile([]);
+        setPreviewUrl([]);
       })
       .catch((error) => {
+        // alert("[분석]파일 전송 중 오류가 발생했습니다.");
         console.error("Error uploading file: ", error);
-        alert("[분석]파일 전송 중 오류가 발생했습니다.");
       });
   };
 
   const onClickChat = () => {
-    const message = "안녕하세요. 오늘 날씨 어때요?";
-    const payload = { message };
+    if (!rValue || rValue.length === 0) {
+      alert("메시지를 입력해주세요.");
+      return;
+    }
+
+    const payload = { message: rValue };
+
+    setRValue("");
+    setMessages([...messages, rValue]);
 
     axios
       .post("/api/chat", payload)
       .then((res) => {
+        // alert("[채팅] 파일이 성공적으로 전송되었습니다.");
         console.log(res.data);
-        alert("[채팅] 파일이 성공적으로 전송되었습니다.");
+        // setMessages([...messages, res.data.result]);
+        setMessages((prevMessages) => [...prevMessages, res.data.result]);
       })
       .catch((error) => {
+        // alert("[채팅] [알파벳 분석] 파일 전송 중 오류가 발생했습니다.");
         console.error("Error uploading file: ", error);
-        alert("[채팅] [알파벳 분석] 파일 전송 중 오류가 발생했습니다.");
       });
+  };
+
+  const onChangeRValue = (e) => {
+    setRValue(e.target.value);
   };
 
   return (
     <Container>
-      <button onClick={onClickSendImg}>전송</button>
-      <button onClick={onClickChat}>채팅</button>
-
       <input
         type="file"
         multiple={true}
@@ -288,8 +302,21 @@ const SignLanChatPage = () => {
           <p>미리보기 이미지가 없습니다.</p>
         )}
       </PreviewImageSection>
+      <button onClick={onClickSendImg}>변환</button>
 
-      <input type="text" />
+      <br />
+      <br />
+      <br />
+      <input type="text" value={rValue} onChange={onChangeRValue} />
+
+      {messages &&
+        messages.map((message, index) => (
+          <div key={index}>
+            <span>{message}</span> <br />
+          </div>
+        ))}
+
+      <button onClick={onClickChat}>보내기</button>
     </Container>
   );
 };

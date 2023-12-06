@@ -37,14 +37,27 @@ const LoginModal = ({ show, onClose, onShowRegister }) => {
 
   return (
     <Modal show={show} onClose={onClose}>
-      <h2>로그인</h2>
-      <br />
-      <input type="text" value={id} onChange={onChangeId} />
-      <br />
-      <input type="password" value={password} onChange={onChangePassword} />
-      <br />
-      <button onClick={onClickLogin}>로그인</button>
-      <button onClick={onShowRegister}>회원가입</button>
+      <Container>
+        <div>
+            <h4 className='login_tit'> 로그인 </h4>
+                <div className='login_div'>
+                  <div className='login_input_div'>
+                    <p>  아이디 </p>
+                      <input type='text' name='id' value={id} onChange={onChangeId}/>
+                  </div>
+
+                  <div className='login_input_div' style={{ 'marginTop' : '40px'}}>
+                      <p>  비밀번호 </p>
+                      <input type='text' name='password' value={password} onChange={onChangePassword}/>
+                    </div>
+
+                    <div className='submit_div'>
+                      <div><button className="l_btn" onClick={onClickLogin}>로그인</button> </div>
+                      <div><button className="l_btn" onClick={onShowRegister}>회원가입</button> </div>
+                    </div>
+                  </div>
+          </div>
+      </Container>
     </Modal>
   );
 };
