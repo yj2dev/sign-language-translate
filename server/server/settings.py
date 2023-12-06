@@ -6,7 +6,7 @@ SECRET_KEY = "django-insecure-+jf3c=)jna2$d)_2n#v0wv)!dv*g42d&0bwd$2_kab$w@=*j_$
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "sslserver",
     "corsheaders",
     "api",
 ]
@@ -44,6 +45,7 @@ CSRF_TRUSTED_ORIGINS = (
     'http://127.0.0.1:8000',
     'http://localhost:8080',
     'http://127.0.0.1:8080',
+    'https://brilliant-churros-76d944.netlify.app',
 )
 
 CORS_ORIGIN_WHITELIST = (
@@ -53,6 +55,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000',
     'http://localhost:8080',
     'http://127.0.0.1:8080',
+    'https://brilliant-churros-76d944.netlify.app',
 )
 
 
