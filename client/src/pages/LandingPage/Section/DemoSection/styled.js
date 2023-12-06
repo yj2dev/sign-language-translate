@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  //margin: 400px 0 200px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,6 +9,10 @@ export const Container = styled.div`
   background-color: #f2f2f2; // 백그라운드 컬러를 밝은 톤으로 변경
   padding: 20px;
   color: #333; // 기본 텍스트 컬러를 어둡게 설정
+
+  .moveto {
+    margin-bottom: 120px;
+  }
 
   h1 {
     font-family: "Diphylleia", serif;

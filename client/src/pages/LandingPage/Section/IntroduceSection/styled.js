@@ -5,6 +5,7 @@ export const Container = styled.div`
   font-size: 2em;
   color: #cccccc;
 
+  margin-bottom: 400px;
   .intro_wrapper {
     background-color: #f2f2f2;
     width: 100%;
@@ -15,11 +16,11 @@ export const Container = styled.div`
   .intro-content {
     position: relative;
     top: 80px;
-    left:40px;
-    
+    left: 40px;
   }
 
-  h2, p {
+  h2,
+  p {
     margin-left: 120px;
   }
 
@@ -83,7 +84,7 @@ export const Container = styled.div`
 
   @media screen and (max-width: 1024px) {
     p {
-      font-size: 18px; 
+      font-size: 18px;
     }
   }
 `;
