@@ -39,6 +39,7 @@ const RegisterModal = ({ show, onClose, onShowLogin }) => {
 
   return (
     <Modal show={show} onClose={onClose}>
+      <Container>
       <h2>회원가입</h2>
       <br />
       <input
@@ -54,6 +55,7 @@ const RegisterModal = ({ show, onClose, onShowLogin }) => {
       <br />
       <button onClick={onClickRegister}>회원가입 완료</button>
       <button onClick={onShowLogin}>로그인</button>
+      </Container>
     </Modal>
   );
 };

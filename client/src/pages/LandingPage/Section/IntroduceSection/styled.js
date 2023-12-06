@@ -57,9 +57,6 @@ export const Container = styled.div`
     position: relative;
     margin-top: -350px;
     margin-right: 100px;
-    // top= 100px;
-    // right = 300px;
-    // position: absolute;
   }
 
   h3 {
