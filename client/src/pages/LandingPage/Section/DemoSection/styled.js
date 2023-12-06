@@ -11,7 +11,7 @@ export const Container = styled.div`
   color: #333; // 기본 텍스트 컬러를 어둡게 설정
 
   .moveto {
-    margin-bottom: 120px;
+    margin-bottom: 180px;
   }
 
   h1 {

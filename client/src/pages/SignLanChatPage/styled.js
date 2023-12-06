@@ -202,6 +202,7 @@ export const PreviewImageSection = styled.div`
     height: 144px; /* 이미지의 원래 비율을 유지 */
     object-fit: cover;
     border-radius: 8px;
+    cursor: pointer;
   }
 
   .button-container {
