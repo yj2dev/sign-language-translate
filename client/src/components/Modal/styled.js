@@ -16,6 +16,8 @@ export const Container = styled.div`
     background: white;
     padding: 20px;
     border-radius: 5px;
+    width:20%;
+    height:60%;
   }
   .close-btn {
     position: absolute;

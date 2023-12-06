@@ -107,7 +107,8 @@ function DemoSection() {
   }, [isCapturing, countdown]);
   return (
     <Container>
-      <h1 id="demo-section">수화로 세상과 소통해 보아요.</h1>
+      <h1 className="moveto" id="demo-section" />
+      <h1>수화로 세상과 소통해 보아요.</h1>
       <h1>당신의 이야기를 듣고 싶습니다.</h1>
 
       <CameraAndPreviewContainer>
