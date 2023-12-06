@@ -142,31 +142,32 @@ const HeaderRight = () => {
           {/*<Link to="arcade">익히기</Link>*/}
         </li>
       </ul>
-      {/*<ul>*/}
-      {/*  <li>*/}
-      {/*    <button onClick={onClickLogout}>로그아웃</button>*/}
-      {/*  </li>*/}
-      {/*  <li>*/}
-      {/*    {user ? (*/}
-      {/*      user.profileUrl ? (*/}
-      {/*        <img src={user.profileUrl} alt="user profile" />*/}
-      {/*      ) : (*/}
-      {/*        <img*/}
-      {/*          src={`https://api.dicebear.com/7.x/lorelei-neutral/svg?seed=${user.id}`}*/}
-      {/*          alt="user profile"*/}
-      {/*        />*/}
-      {/*        // <img*/}
-      {/*        //   src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${user.id}`}*/}
-      {/*        //   alt="user profile"*/}
-      {/*        // />*/}
-      {/*      )*/}
-      {/*    ) : (*/}
-      {/*      <button className="login-btn" onClick={onShowLoginModal}>*/}
-      {/*        로그인*/}
-      {/*      </button>*/}
-      {/*    )}*/}
-      {/*  </li>*/}
-      {/*</ul>*/}
+      <ul>
+        <li>
+          <button onClick={onClickLogout}>로그아웃</button>
+          {/*  모달 메뉴로 넣어야함 */}
+        </li>
+        <li>
+          {user ? (
+            user.profileUrl ? (
+              <img src={user.profileUrl} alt="user profile" />
+            ) : (
+              <img
+                src={`https://api.dicebear.com/7.x/lorelei-neutral/svg?seed=${user.id}`}
+                alt="user profile"
+              />
+              // <img
+              //   src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${user.id}`}
+              //   alt="user profile"
+              // />
+            )
+          ) : (
+            <button className="login-btn" onClick={onShowLoginModal}>
+              로그인
+            </button>
+          )}
+        </li>
+      </ul>
     </HeaderRightNav>
   );
 };
