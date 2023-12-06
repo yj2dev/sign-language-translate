@@ -286,7 +286,9 @@ const SignLanChatPage = () => {
         />
 
         <FileDropSection
-          className={isDrag ? "drag" : ""}
+          className={`${isDrag ? "drag" : ""} ${
+            dropFile.length > 0 ? "active" : ""
+          }`}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={() => setIsDrag(false)}
@@ -319,7 +321,6 @@ const SignLanChatPage = () => {
         <PreviewImageSection className={dropFile.length > 0 && "active"}>
           {previewUrl && previewUrl.length > 0 ? (
             <div className="images-container">
-              {" "}
               {/* 여기에 images-container 클래스를 추가 */}
               {previewUrl.map((url, index) => (
                 <div
