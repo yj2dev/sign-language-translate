@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  user-select: none;
   //border: 1px dashed #9da0a5;
   margin: 24px 0;
   padding: 32px;
@@ -78,14 +79,41 @@ export const PreviewImageSection = styled.div`
 
   flex-direction: row;
   flex-wrap: wrap;
-  border: 2px dashed orange;
+  //border: 2px dashed orange;
   gap: 12px;
 
   img {
-    border: 1px solid red;
+    //border: 1px solid red;
     width: 256px;
     height: 256px;
     //height: 256px;
     object-fit: cover;
+  }
+  .preview-item {
+    position: relative;
+    // 기타 스타일...
+
+    &.dragging {
+      border: 2px dashed blue; // 드래그 중인 항목 스타일
+      opacity: 0.5;
+    }
+
+    .del-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: black;
+      color: white;
+      padding: 2px 5px;
+    }
+
+    span {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: black;
+      color: white;
+      padding: 2px 5px;
+    }
   }
 `;
