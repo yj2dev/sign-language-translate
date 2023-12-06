@@ -14,7 +14,7 @@ import getCookie from "./utils/Cookie";
 
 // axios.defaults.baseURL = "http://13.212.5.129"; // 운영 서버, dongmin ec2
 
-axios.defaults.baseURL = "http://222.105.252.28:8080/"; // 운영 서버, yujin school
+axios.defaults.baseURL = "http://222.105.252.28:8080"; // 운영 서버, yujin school
 
 axios.defaults.withCredentials = true;
 axios.defaults.xsrfCookieName = "csrftoken";
