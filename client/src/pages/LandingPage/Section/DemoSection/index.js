@@ -22,12 +22,12 @@ function DemoSection() {
   const [isCapturing, setIsCapturing] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
 
-  const defaultCaptureInterval = 2;
+  const defaultCaptureInterval = 3;
   const [captureInterval, setCaptureInterval] = useState(
     defaultCaptureInterval,
   );
   const [capturedImage, setCapturedImage] = useState(null);
-
+  const [countdown, setCountdown] = useState(captureInterval);
   const getRandomLetter = () => {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     return letters[Math.floor(Math.random() * letters.length)];
@@ -35,9 +35,9 @@ function DemoSection() {
 
   const captureImage = () => {
     if (webcamRef.current) {
-      setIsLoading(true); // 로딩 시작
+      setIsLoading(true);
       const imageSrc = webcamRef.current.getScreenshot();
-      setCapturedImage(null); // 이전 이미지를 초기화
+      setCapturedImage(null);
 
       // Base64 인코딩된 데이터 URL을 Blob 객체로 변환
       fetch(imageSrc)
@@ -74,39 +74,37 @@ function DemoSection() {
           setCapturedImage(imageSrc); // 요청이 완료되면 이미지 설정
         })
         .finally(() => {
-          setIsLoading(false); // 로딩 종료
+          setIsLoading(false);
+          setCapturedImage(imageSrc);
+          setCountdown(captureInterval); // 카운트다운 재설정
         });
     }
   };
-  const startAutoCapture = () => {
-    captureImage(); // 즉시 이미지 캡처
-    setIsCapturing(true); // 자동 캡처 상태를 true로 설정
-  };
-
-  const stopAutoCapture = () => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-    }
-    setIsCapturing(false); // 자동 캡처 상태를 false로 설정
-  };
 
   const toggleAutoCapture = () => {
+    if (isCapturing) {
+      setCountdown(defaultCaptureInterval); // 자동 캡처 중지 시 카운트다운 재설정
+    }
     setIsCapturing(!isCapturing); // 자동 캡처 상태를 반전시킵니다.
   };
 
   useEffect(() => {
     let id;
     if (isCapturing) {
-      // 자동 캡처 시작 시 즉시 한 번 캡처
-      captureImage();
-      id = setInterval(captureImage, captureInterval * 1000);
+      id = setInterval(() => {
+        if (countdown === 1) {
+          captureImage();
+          setCountdown(captureInterval); // 카운트다운을 다시 설정
+        } else {
+          setCountdown(countdown - 1);
+        }
+      }, 1000);
+    } else {
+      clearInterval(id);
     }
-    // 컴포넌트 언마운트시 실행될 정리 함수
-    return () => {
-      clearInterval(id); // setInterval을 정리합니다.
-    };
-  }, [isCapturing, captureInterval]); // intervalId를 의존성 배열에서 제거합니다.
+
+    return () => clearInterval(id);
+  }, [isCapturing, countdown]);
   return (
     <Container>
       <h1 id="demo-section">수화로 세상과 소통해 보아요.</h1>
@@ -116,7 +114,12 @@ function DemoSection() {
         <WebcamView>
           <Webcam ref={webcamRef} />
         </WebcamView>
+
         <ImagePreview>
+          <div className="countdown-display">
+            {isCapturing && !isLoading && <span>{countdown}초</span>}
+            {/*{!isCapturing && <span>{countdown}초</span>}*/}
+          </div>
           {isLoading ? (
             // isLoading 상태가 true일 때 로더를 표시합니다.
             <PulseLoader color="#cccccc" size="32" margin="8" />
@@ -135,7 +138,10 @@ function DemoSection() {
       </CameraAndPreviewContainer>
       <ButtonContainer>
         <div className="flex_1">
-          <Button disabled={isCapturing} onClick={captureImage}>
+          <Button
+            disabled={(isCapturing || isLoading) && true}
+            onClick={captureImage}
+          >
             캡처
           </Button>
         </div>
@@ -156,7 +162,7 @@ function DemoSection() {
                 setCaptureInterval(newInterval);
               }
             }}
-            disabled={isCapturing}
+            disabled={(isCapturing || isLoading) && true}
             title="자동 캡처를 할 때 캡처 간 딜레이 시간입니다."
           />
         </div>

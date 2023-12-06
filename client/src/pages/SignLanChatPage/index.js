@@ -19,7 +19,48 @@ const SignLanChatPage = () => {
   const [dropFile, setDropFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
+  const [dragging, setDragging] = useState(false); // 드래그 중인지 상태
+  const [draggedIndex, setDraggedIndex] = useState(null); // 드래그 중인 항목의 인덱스
+
   const [value, setValue] = useState("");
+  // 드래그 시작 핸들러
+  const onDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index);
+    setDragging(true);
+    setDraggedIndex(index);
+  };
+  // 드롭 핸들러
+  const onDrop = (e, dropIndex) => {
+    e.preventDefault();
+    const dragIndex = Number(e.dataTransfer.getData("text/plain")); // 저장된 인덱스를 숫자로 변환
+
+    if (dragIndex === dropIndex) {
+      return; // 같은 위치에 드롭하는 경우 변화 없음
+    }
+
+    const newFiles = [...dropFile];
+    const newUrls = [...previewUrl];
+    const draggedFile = newFiles.splice(dragIndex, 1)[0];
+    const draggedUrl = newUrls.splice(dragIndex, 1)[0];
+    newFiles.splice(dropIndex, 0, draggedFile);
+    newUrls.splice(dropIndex, 0, draggedUrl);
+    setDropFile(newFiles);
+    setPreviewUrl(newUrls);
+    setDragging(false);
+    setDraggedIndex(null);
+  };
+  const onDragEnd = () => {
+    setDragging(false);
+    setDraggedIndex(null);
+  };
+
+  // 삭제 핸들러
+  const onDelete = (deleteIndex) => {
+    const newFiles = dropFile.filter((_, index) => index !== deleteIndex);
+    const newUrls = previewUrl.filter((_, index) => index !== deleteIndex);
+    setDropFile(newFiles);
+    setPreviewUrl(newUrls);
+  };
 
   useEffect(() => {
     const handleDragOver = (e) => {
@@ -43,39 +84,37 @@ const SignLanChatPage = () => {
       setIsDrag(false);
 
       const files = e.dataTransfer.files;
-      let previewUrls = []; // 미리보기 URL을 저장할 배열
-
       if (files && files.length) {
         const imageFiles = Array.from(files).filter((file) =>
           file.type.startsWith("image/"),
         );
 
         if (imageFiles.length) {
-          const newImageFiles = dropFile
-            ? [...dropFile, ...imageFiles]
-            : imageFiles; // 기존 파일에 새로운 파일 추가
+          let newPreviewUrls = [...(previewUrl || [])]; // 기존 미리보기 URL 유지
 
-          newImageFiles.forEach((file, index) => {
+          imageFiles.forEach((file) => {
             const reader = new FileReader();
 
             reader.onloadend = () => {
-              previewUrls.push(reader.result); // URL 배열에 추가
+              newPreviewUrls = [...newPreviewUrls, reader.result]; // 새 URL 추가
 
-              // 모든 이미지가 로드되었는지 확인
-              if (previewUrls.length === newImageFiles.length) {
-                setDropFile(newImageFiles); // 드랍된 파일 상태 업데이트
-                setPreviewUrl(previewUrls); // 모든 이미지 URL 배열을 상태에 설정
+              if (
+                newPreviewUrls.length ===
+                (dropFile ? dropFile.length : 0) + imageFiles.length
+              ) {
+                const updatedImageFiles = dropFile
+                  ? [...dropFile, ...imageFiles]
+                  : imageFiles;
+                setDropFile(updatedImageFiles); // 업데이트된 파일 목록 상태 업데이트
+                setPreviewUrl(newPreviewUrls); // 업데이트된 미리보기 URL 목록 상태 업데이트
               }
             };
 
-            reader.readAsDataURL(file); // 파일 읽기 시작
+            reader.readAsDataURL(file);
           });
-        } else {
-          setDropFile(null);
         }
       }
     };
-
     const handlePaste = (e) => {
       const items = (e.clipboardData || window.clipboardData).items;
       let imageFiles = []; // 이미지 파일을 저장할 배열
@@ -106,13 +145,13 @@ const SignLanChatPage = () => {
       }
     };
 
-    window.addEventListener("dragover", handleDragOver);
-    window.addEventListener("drop", handleDrop);
+    // window.addEventListener("dragover", handleDragOver);
+    // window.addEventListener("drop", handleDrop);
     window.addEventListener("paste", handlePaste);
 
     return () => {
-      window.removeEventListener("dragover", handleDragOver);
-      window.removeEventListener("drop", handleDrop);
+      // window.removeEventListener("dragover", handleDragOver);
+      // window.removeEventListener("drop", handleDrop);
       window.removeEventListener("paste", handlePaste);
     };
   }, []);
@@ -135,12 +174,12 @@ const SignLanChatPage = () => {
           previewUrls.push(reader.result); // URL 배열에 추가
           // 모든 이미지가 로드되었는지 확인
           if (previewUrls.length === imageFiles.length) {
-            setDropFile((prevFiles) => [...(prevFiles || []), ...imageFiles]); // 기존 파일에 새로운 파일 추가
-            setPreviewUrl((prevUrls) => [...(prevUrls || []), ...previewUrls]); // 기존 URL에 새로운 URL 추가
+            setDropFile((prevFiles) => [...(prevFiles || []), ...imageFiles]);
+            setPreviewUrl((prevUrls) => [...(prevUrls || []), ...previewUrls]);
           }
         };
 
-        reader.readAsDataURL(file); // 파일 읽기 시작
+        reader.readAsDataURL(file);
       });
     }
   };
@@ -209,8 +248,8 @@ const SignLanChatPage = () => {
 
       {isDrag && <DragOverlay>파일을 드롭하세요</DragOverlay>}
       <FileDropSection onClick={() => fileInputRef.current.click()}>
-        {dropFile ? (
-          <p>{dropFile[0].name}</p>
+        {dropFile && dropFile.length > 0 ? (
+          <p>{dropFile[0].name}</p> // 파일이 있을 때만 파일 이름 표시
         ) : (
           <div className="drop-content">
             <IconContext.Provider value={{ className: "react-icons" }}>
@@ -224,16 +263,30 @@ const SignLanChatPage = () => {
           </div>
         )}
       </FileDropSection>
-
       <PreviewImageSection>
-        {previewUrl &&
-          previewUrl.map((v, i) => {
-            return (
-              <>
-                <img src={v} alt="preview" />
-              </>
-            );
-          })}
+        {previewUrl && previewUrl.length > 0 ? (
+          previewUrl.map((url, index) => (
+            <div
+              key={index}
+              draggable
+              onDragOver={(e) => e.preventDefault()}
+              onDragStart={(e) => onDragStart(e, index)}
+              onDrop={(e) => onDrop(e, index)}
+              onDragEnd={onDragEnd}
+              className={`preview-item ${
+                dragging && index === draggedIndex ? "dragging" : ""
+              }`}
+            >
+              <img src={url} alt="preview" />
+              <button className="del-btn" onClick={() => onDelete(index)}>
+                삭제
+              </button>
+              <span>{index + 1}</span> {/* 인덱스 번호 표시 */}
+            </div>
+          ))
+        ) : (
+          <p>미리보기 이미지가 없습니다.</p>
+        )}
       </PreviewImageSection>
     </Container>
   );
