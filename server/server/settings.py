@@ -44,7 +44,7 @@ CSRF_TRUSTED_ORIGINS = (
     'http://127.0.0.1:8000',
     'http://localhost:8080',
     'http://127.0.0.1:8080',
-    'https://brilliant-churros-76d944.netlify.app/',
+    'https://brilliant-churros-76d944.netlify.app',
 )
 
 CORS_ORIGIN_WHITELIST = (
@@ -54,7 +54,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000',
     'http://localhost:8080',
     'http://127.0.0.1:8080',
-    'https://brilliant-churros-76d944.netlify.app/',
+    'https://brilliant-churros-76d944.netlify.app',
 )
 
 

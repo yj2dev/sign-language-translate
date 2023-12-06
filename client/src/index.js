@@ -10,8 +10,11 @@ import getCookie from "./utils/Cookie";
 // axios.defaults.xsrfHeaderName = "x-CSRFToken";
 // axios.defaults.withCredentials = true;
 
-// axios.defaults.baseURL = "http://localhost:8000";
-axios.defaults.baseURL = "http://13.212.5.129";
+// axios.defaults.baseURL = "http://localhost:8000"; // 개발 서버
+
+// axios.defaults.baseURL = "http://13.212.5.129"; // 운영 서버, dongmin ec2
+
+axios.defaults.baseURL = "http://222.105.252.28:8080/"; // 운영 서버, yujin school
 
 axios.defaults.withCredentials = true;
 axios.defaults.xsrfCookieName = "csrftoken";
