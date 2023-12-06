@@ -16,6 +16,7 @@ export const Container = styled.div`
         font-family: "Diphylleia", serif;
     }
       
+    
     .login_input_div p {
         font-weight: bold;
         margin-bottom : 8px;
