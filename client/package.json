@@ -23,6 +23,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:mac": "HTTPS=true SSL_CRT_FILE=cert/localhost.pem SSL_KEY_FILE=cert/localhost-key.pem npm run start",
+    "start:windows": "set HTTPS=true&&set SSL_CRT_FILE=cert/localhost.pem&&set SSL_KEY_FILE=cert/localhost-key.pem&&npm run start",
+    "start:windows2": "set PORT=8080&&react-scripts start&&set HTTPS=true&&set SSL_CRT_FILE=cert/localhost.pem&&set SSL_KEY_FILE=cert/localhost-key.pem",
+
     "start:test": "set PORT=8080 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
