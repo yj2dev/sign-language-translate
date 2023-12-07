@@ -2,6 +2,8 @@ import { PulseLoader } from "react-spinners";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Webcam from "react-webcam";
+import { FaRegQuestionCircle } from "react-icons/fa";
+
 import {
   Container,
   Button,
@@ -105,17 +107,16 @@ function DemoSection() {
 
     return () => clearInterval(id);
   }, [isCapturing, countdown]);
+
   return (
     <Container>
       <h1 className="moveto" id="demo-section" />
       <h1>수화로 세상과 소통해 보아요.</h1>
       <h1>당신의 이야기를 듣고 싶습니다.</h1>
-
       <CameraAndPreviewContainer>
         <WebcamView>
           <Webcam ref={webcamRef} />
         </WebcamView>
-
         <ImagePreview>
           <div className="countdown-display">
             {isCapturing && !isLoading && <span>{countdown}초</span>}
@@ -153,6 +154,7 @@ function DemoSection() {
           >
             {isCapturing ? "자동 캡처 중지" : "자동 캡처 시작"}
           </Button>
+          
           <CaptureIntervalInput
             className="btn_1"
             type="number"
@@ -164,8 +166,14 @@ function DemoSection() {
               }
             }}
             disabled={(isCapturing || isLoading) && true}
-            title="자동 캡처를 할 때 캡처 간 딜레이 시간입니다."
+            // title="자동 캡처를 할 때 캡처 간 딜레이 시간입니다."
           />
+          <div className="tooltip">
+          <FaRegQuestionCircle className="fa-question-circle"/>
+          <span className="tooltiptext">
+          자동 캡처를 할 때 캡처 간 딜레이 시간입니다.
+          </span>
+          </div>
         </div>
       </ButtonContainer>
     </Container>

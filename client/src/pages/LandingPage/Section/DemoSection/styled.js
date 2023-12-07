@@ -21,6 +21,44 @@ export const Container = styled.div`
     margin: 0;
     margin-bottom: 24px;
   }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 13px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  left: -20px;
+}
+
+.tooltip .fa-question-circle {
+  position: absolute;
+  top: -5px; 
+  right: 0; 
+  font-size: 25px;
+  color : #a0a0a0;
+}
+
 `;
 
 export const CameraAndPreviewContainer = styled.div`
@@ -168,6 +206,7 @@ export const CaptureIntervalInput = styled.input`
   &:focus {
     outline: none;
   }
+  height:80px;
 `;
 
 export const LoadingBar = styled.div`
