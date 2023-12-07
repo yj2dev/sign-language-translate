@@ -59,7 +59,7 @@ def sign_lan_analysis(req):
                 # mlflow 로딩
                 mlflow_uri="http://mini7-mlflow.carpediem.so/"
                 mlflow.set_tracking_uri(mlflow_uri)
-                model_uri = "models:/model_26/production" 
+                model_uri = "models:/signlanguage/production" 
                 model = mlflow.keras.load_model(model_uri)
                 
                 img = cv2.imread(file_url, cv2.IMREAD_GRAYSCALE)
