@@ -59,7 +59,7 @@ def sign_lan_analysis(req):
                 # mlflow 로딩
                 mlflow_uri="http://mini7-mlflow.carpediem.so/"
                 mlflow.set_tracking_uri(mlflow_uri)
-                model_uri = "models:/model_26/production" 
+                model_uri = "models:/signlanguage/production" 
                 model = mlflow.keras.load_model(model_uri)
                 
                 img = cv2.imread(file_url, cv2.IMREAD_GRAYSCALE)
@@ -104,10 +104,12 @@ def chat(request):
         data = json.loads(request.body)
         prompt = data.get('message')
         print('prompt >> ', prompt)
-
+        gptprompt ="한글로 대답해"
         completion = client.chat.completions.create(
             model="gpt-4-1106-preview",
-            messages=[{"role": "user", "content": prompt}]
+            messages=[
+                {"role": "system", "content": gptprompt},
+                {"role": "user", "content": prompt}]
         )
         print(completion)
         result = completion.choices[0].message.content
