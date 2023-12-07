@@ -104,10 +104,12 @@ def chat(request):
         data = json.loads(request.body)
         prompt = data.get('message')
         print('prompt >> ', prompt)
-
+        gptprompt ="한글로 대답해"
         completion = client.chat.completions.create(
             model="gpt-4-1106-preview",
-            messages=[{"role": "user", "content": prompt}]
+            messages=[
+                {"role": "system", "content": gptprompt},
+                {"role": "user", "content": prompt}]
         )
         print(completion)
         result = completion.choices[0].message.content
