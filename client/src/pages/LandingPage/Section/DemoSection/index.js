@@ -131,9 +131,7 @@ function DemoSection() {
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
+
         <TipContent>
           다른 프로그램에서 <span>&nbsp;카메라를 사용중&nbsp;</span>
           인지 확인해 주세요.

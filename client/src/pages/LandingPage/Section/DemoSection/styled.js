@@ -5,9 +5,10 @@ export const SignSet = styled.div``;
 export const TipContent = styled.h2`
   display: flex;
   justify-content: center;
-  //margintop: 20px;
   font-size: 1.8em;
   align-items: center;
+  margin: 0px;
+  padding: 0px;
   span {
     font-size: 2em;
     color: #ffa726;
