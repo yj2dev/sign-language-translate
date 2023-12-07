@@ -15,6 +15,7 @@
     "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
+    "react-tooltip": "^5.25.0",
     "react-webcam": "^7.2.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
@@ -26,7 +27,6 @@
     "start:mac": "HTTPS=true SSL_CRT_FILE=cert/localhost.pem SSL_KEY_FILE=cert/localhost-key.pem npm run start",
     "start:windows": "set HTTPS=true&&set SSL_CRT_FILE=cert/localhost.pem&&set SSL_KEY_FILE=cert/localhost-key.pem&&npm run start",
     "start:windows2": "set PORT=8080&&react-scripts start&&set HTTPS=true&&set SSL_CRT_FILE=cert/localhost.pem&&set SSL_KEY_FILE=cert/localhost-key.pem",
-
     "start:test": "set PORT=8080 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

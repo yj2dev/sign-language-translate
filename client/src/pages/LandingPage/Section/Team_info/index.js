@@ -1,44 +1,52 @@
-import Team from "./image/team.png";
+import DM from "./image/dm.png";
+import YJ from "./image/YJ.png";
+import DI from "./image/DI.png";
+import JW from "./image/JW.png";
+import SH from "./image/SH.png";
+import SJ from "./image/SJ.png";
+import SM from "./image/SM.png";
+import AH from "./image/AH.png";
+
 const Team_info = () => {
   
   const workInfoData = [
     {
-      image: Team,
+      image: JW,
       title: "🐻김진우",
       text: "Model",
     },
     {
-      image: Team,
-      title: "🐹최다인",
+      image: DI,
+      title: "🐰최다인",
       text: "Model ",
     },
     {
-      image: Team,
+      image: DM,
       title: "🐶김동민",
       text: "Infra",
     },
     {
-      image: Team,
+      image: SJ,
       title: "🐼이승주",
       text: "Frontend",
     },
     {
-      image: Team,
-      title: "🦁이유진",
+      image: YJ,
+      title: "🪿이유진",
       text: "Frontend",
     },
     {
-      image: Team,
-      title: "🐰홍아현",
+      image: AH,
+      title: "🐱홍아현",
       text: "Frontend",
     },
     {
-      image: Team,
+      image: SM,
       title: "🐻‍❄️김성민",
       text: "Backend ",
     },
     {
-      image: Team,
+      image: SH,
       title: "🐯박성현",
       text: "Backend",
     },
